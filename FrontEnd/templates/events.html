@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="bg-primary text-white py-5 text-center mb-5" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
+    <h1 class="display-4 fw-bold">Explore All Events</h1>
+    <p class="lead">Find the perfect experience for you</p>
+</div>
+
+<div class="container mb-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0 fw-bold">Categories</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#"
+                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center active">
+                        All Events <span class="badge bg-light text-dark rounded-pill">{{ events|length }}</span>
+                    </a>
+                    <!-- Static categories for demo -->
+                    <a href="#" class="list-group-item list-group-item-action">Technology</a>
+                    <a href="#" class="list-group-item list-group-item-action">Music</a>
+                    <a href="#" class="list-group-item list-group-item-action">Business</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Grid -->
+        <div class="col-lg-9">
+            <div class="row">
+                {% for event in events %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm hover-effect border-0">
+                        <img src="{{ event.image_url }}" class="card-img-top" alt="{{ event.title }}"
+                            style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <span class="badge bg-primary mb-2">{{ event.category }}</span>
+                            <h5 class="card-title fw-bold">{{ event.title }}</h5>
+                            <p class="card-text small text-muted mb-2"><i class="fas fa-map-marker-alt text-danger"></i>
+                                {{ event.location }}</p>
+                            <p class="card-text small text-truncate">{{ event.description }}</p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0 pb-3">
+                            <a href="{{ url_for('event_details', event_id=event.id) }}"
+                                class="btn btn-outline-dark btn-sm w-100">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

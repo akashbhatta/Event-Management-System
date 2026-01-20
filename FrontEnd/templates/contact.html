@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="bg-dark text-white py-5 text-center mb-5" style="background: linear-gradient(135deg, #2c3e50, #4ca1af);">
+    <h1 class="display-4 fw-bold">Get In Touch</h1>
+    <p class="lead">We'd love to hear from you.</p>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow border-0 overflow-hidden">
+                <div class="row g-0">
+                    <!-- Contact Info Column -->
+                    <div class="col-md-5 bg-primary text-white p-5 d-flex flex-column justify-content-center">
+                        <h3 class="fw-bold mb-4">Contact Info</h3>
+
+                        <div class="mb-4 d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt fa-lg me-3"></i>
+                            <span>123 IT Park, Kathmandu, Nepal</span>
+                        </div>
+                        <div class="mb-4 d-flex align-items-center">
+                            <i class="fas fa-envelope fa-lg me-3"></i>
+                            <span>support@eventpro.com.np</span>
+                        </div>
+                        <div class="mb-4 d-flex align-items-center">
+                            <i class="fas fa-phone fa-lg me-3"></i>
+                            <span>+977 9800000000</span>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="#" class="text-white me-3 hover-effect"><i class="fab fa-facebook fa-2x"></i></a>
+                            <a href="#" class="text-white me-3 hover-effect"><i class="fab fa-twitter fa-2x"></i></a>
+                            <a href="#" class="text-white hover-effect"><i class="fab fa-instagram fa-2x"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Form Column (Visual Only) -->
+                    <div class="col-md-7 p-5">
+                        <h3 class="fw-bold mb-4 text-dark">Send a Message</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Your Name</label>
+                                <input type="text" class="form-control" placeholder="John Doe">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Email Address</label>
+                                <input type="email" class="form-control" placeholder="john@example.com">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Message</label>
+                                <textarea class="form-control" rows="4" placeholder="How can we help?"></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-primary btn-lg"
+                                    onclick="alert('Message sent! (Demo only)')">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

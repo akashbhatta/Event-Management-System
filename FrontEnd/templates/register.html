@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow border-0 mt-5">
+            <div class="card-header bg-success text-white text-center py-3">
+                <h4 class="mb-0 fw-bold">Create an Account</h4>
+            </div>
+            <div class="card-body p-4">
+                <!-- Connects to Python Register Route -->
+                <form method="POST" action="">
+                    <!-- SECURITY TOKEN -->
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.username.label(class="form-label fw-bold") }}
+                        {{ form.username(class="form-control", placeholder="Choose a username") }}
+                        {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.email.label(class="form-label fw-bold") }}
+                        {{ form.email(class="form-control", placeholder="email@example.com") }}
+                        {% if form.email.errors %}
+                        <div class="text-danger small mt-1">{{ form.email.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.password.label(class="form-label fw-bold") }}
+                        {{ form.password(class="form-control") }}
+                        {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <!-- FIXED: Changed confirm_password to confirm -->
+                        {{ form.confirm.label(class="form-label fw-bold") }}
+                        {{ form.confirm(class="form-control") }}
+                        {% if form.confirm.errors %}
+                        <div class="text-danger small mt-1">{{ form.confirm.errors[0] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-success btn-lg") }}
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center py-3 bg-light">
+                <small>Already have an account? <a href="{{ url_for('login') }}" class="text-success fw-bold">Login
+                        here</a></small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

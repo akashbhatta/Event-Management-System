@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold">Create Memories That Last</h1>
+        <p class="lead mb-4">Experience the best of tech, music, and culture.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="#events" class="btn btn-light btn-lg px-4 fw-bold">Browse Now</a>
+            <a href="{{ url_for('create_event') }}" class="btn btn-outline-light btn-lg px-4 fw-bold">Host Event</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5" id="events">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <h2 class="fw-bold">Upcoming Events</h2>
+        <input type="text" id="eventSearch" class="form-control w-25 shadow-sm" placeholder="Search events..."
+            onkeyup="filterEvents()">
+    </div>
+
+    <div class="row" id="eventsContainer">
+        {% for event in events %}
+        <div class="col-md-4 mb-4 event-card {% if loop.index <= 6 %}page-1{% else %}page-2{% endif %}"
+            style="{% if loop.index > 6 %}display:none;{% endif %}">
+            <div class="card h-100">
+                <img src="{{ event.image_url }}" class="card-img-top">
+                <div class="card-body">
+                    <span class="badge bg-primary mb-2">{{ event.category }}</span>
+                    <h5 class="card-title fw-bold">{{ event.title }}</h5>
+                    <p class="card-text small text-muted"><i class="fas fa-map-marker-alt text-danger"></i> {{
+                        event.location }}</p>
+                    <p class="card-text text-truncate">{{ event.description }}</p>
+                </div>
+                <div class="card-footer bg-white border-0 pb-3">
+                    <a href="{{ url_for('event_details', event_id=event.id) }}"
+                        class="btn btn-outline-primary w-100">View Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center align-items-center mt-4">
+        <button id="prevBtn" class="btn btn-outline-dark me-3" onclick="changePage(-1)" disabled>Previous</button>
+        <span id="pageIndicator" class="fw-bold">Page 1 of 2</span>
+        <button id="nextBtn" class="btn btn-outline-dark ms-3" onclick="changePage(1)">Next</button>
+    </div>
+</div>
+{% endblock %}
