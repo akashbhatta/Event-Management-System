@@ -3,14 +3,12 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow-sm border-0 mt-4">
+        <div class="card shadow border-0 mt-4">
             <div class="card-header bg-primary text-white py-3">
                 <h4 class="mb-0 fw-bold">{{ title if title else 'Host a New Event' }}</h4>
             </div>
             <div class="card-body p-4">
-                <!-- IMPORTANT: action="" means post to the current URL (Python) -->
                 <form method="POST" action="">
-                    <!-- Security Token -->
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
@@ -18,25 +16,37 @@
                         {{ form.title(class="form-control", placeholder="e.g. Summer Music Festival") }}
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.location.label(class="form-label fw-bold") }}
-                        {{ form.location(class="form-control", placeholder="e.g. Kathmandu, Nepal") }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.location.label(class="form-label fw-bold") }}
+                            {{ form.location(class="form-control", placeholder="e.g. Kathmandu, Nepal") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.date.label(class="form-label fw-bold") }}
+                            {{ form.date(class="form-control", type="datetime-local") }}
+                        </div>
                     </div>
 
-                    <div class="mb-3">
-                        {{ form.date.label(class="form-label fw-bold") }}
-                        <!-- This input type allows picking date and time -->
-                        {{ form.date(class="form-control", type="datetime-local") }}
-                        <div class="form-text text-muted">Click the calendar icon to select date and time.</div>
+                    <!-- NEW SECTION: Category and Image URL -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.category.label(class="form-label fw-bold") }}
+                            {{ form.category(class="form-control", placeholder="e.g. Tech, Music, Sports") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.image_url.label(class="form-label fw-bold") }}
+                            {{ form.image_url(class="form-control", placeholder="Paste an image link here") }}
+                            <small class="text-muted">Tip: Copy an image address from the web.</small>
+                        </div>
                     </div>
 
                     <div class="mb-4">
                         {{ form.description.label(class="form-label fw-bold") }}
-                        {{ form.description(class="form-control", rows="5", placeholder="Describe your event...") }}
+                        {{ form.description(class="form-control", rows="4", placeholder="Describe your event...") }}
                     </div>
 
                     <div class="d-grid gap-2">
-                        {{ form.submit(class="btn btn-primary btn-lg") }}
+                        {{ form.submit(class="btn btn-primary btn-lg fw-bold") }}
                         <a href="{{ url_for('dashboard') }}" class="btn btn-light border">Cancel</a>
                     </div>
                 </form>

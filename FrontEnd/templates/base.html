@@ -5,72 +5,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EventPro Nepal</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Using your uppercase folder name 'CSS' -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* This ensures content is not hidden under the fixed navbar */
+        body {
+            padding-top: 90px;
+        }
+    </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-<!-- Responsive Glass Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-        <!-- Logo -->
-        <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
-            <i class="fas fa-calendar-check text-info me-2"></i>EventPro
-        </a>
 
-        <!-- Mobile Toggle Button (The Hamburger) -->
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Navbar Links -->
-        <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('index') }}">Home</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('events') }}">Explore</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('about') }}">About</a></li>
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('contact') }}">Contact</a></li>
-
-                {% if current_user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li class="nav-item">
-                    <a class="btn btn-outline-info rounded-pill px-4 ms-lg-3 mt-2 mt-lg-0"
-                        href="{{ url_for('logout') }}">Logout</a>
-                </li>
-                {% else %}
-                <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('login') }}">Login</a></li>
-                <li class="nav-item">
-                    <a class="btn btn-info text-white fw-bold rounded-pill px-4 ms-lg-3 mt-2 mt-lg-0 shadow-sm"
-                        href="{{ url_for('register') }}">Sign Up</a>
-                </li>
-                {% endif %}
-            </ul>
+    <!-- Responsive Glass Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top"
+        style="background: #1e272e; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fas fa-calendar-check text-info me-2"></i>EventPro
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('events') }}">Explore</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('contact') }}">Contact</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-info rounded-pill px-4 ms-lg-3 mt-2 mt-lg-0"
+                            href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link mx-2" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a
+                            class="btn btn-info text-white fw-bold rounded-pill px-4 ms-lg-3 mt-2 mt-lg-0 shadow-sm"
+                            href="{{ url_for('register') }}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-
+    <!-- Flash Messages -->
     <div class="container mt-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
         {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show">{{ message }}<button type="button"
-                class="btn-close" data-bs-dismiss="alert"></button></div>
+        <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
         {% endfor %}
         {% endif %}
         {% endwith %}
     </div>
 
-    <main>{% block content %}{% endblock %}</main>
+    <!-- Main Content Block -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
-    <footer class="text-center text-white mt-auto">
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
         <div class="container">
-            <p>&copy; 2024 EventPro Nepal. Designed for BIT233.</p>
+            <p class="mb-0">&copy; 2026 EventPro Nepal.</p>
         </div>
     </footer>
+
+    <!-- Bootstrap JS (lowercase 'js' is required for the CDN link) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Using your uppercase folder name 'JS' -->
+    <script src="{{ url_for('static', filename='JS/main.js') }}"></script>
 </body>
 
 </html>

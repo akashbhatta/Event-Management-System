@@ -6,9 +6,9 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
-from sqlalchemy import text 
+from sqlalchemy import text
 
-# 1. SETUP
+# --- 1. SETUP ---
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'my_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -22,7 +22,7 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# 2. DATABASE TABLES
+# --- 2. MODELS ---
 registrations = db.Table('registrations',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('event_id', db.Integer, db.ForeignKey('event.id'))
@@ -43,10 +43,10 @@ class Event(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     description = db.Column(db.Text, nullable=False)
     category = db.Column(db.String(50), default='General')
-    image_url = db.Column(db.String(200))
+    image_url = db.Column(db.String(500))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-# 3. FORMS
+# --- 3. FORMS ---
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -63,59 +63,34 @@ class EventForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     date = StringField('Date (YYYY-MM-DDTHH:MM)', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
+    image_url = StringField('Image URL', validators=[DataRequired()])
     description = TextAreaField('Description', validators=[DataRequired()])
     submit = SubmitField('Post Event')
 
-# 4. ROUTES
+# --- 4. ROUTES ---
+
 @app.route("/")
 @app.route("/index")
 def index():
-    events = Event.query.order_by(Event.date.asc()).all()
+    admin = User.query.filter_by(username="Nepal_Admin").first()
+    admin_id = admin.id if admin else 1
+    if current_user.is_authenticated:
+        # PRIVACY: Admin Events + MY Events only
+        events = Event.query.filter((Event.user_id == admin_id) | (Event.user_id == current_user.id)).order_by(Event.date.asc()).all()
+    else:
+        events = Event.query.filter_by(user_id=admin_id).order_by(Event.date.asc()).all()
     return render_template('index.html', events=events)
 
-# FIXED: Added the missing 'events' route
 @app.route("/events")
 def events():
-    all_events = Event.query.order_by(Event.date.asc()).all()
+    cat = request.args.get('category')
+    admin = User.query.filter_by(username="Nepal_Admin").first()
+    admin_id = admin.id if admin else 1
+    query = Event.query.filter((Event.user_id == admin_id) | (Event.user_id == (current_user.id if current_user.is_authenticated else -1)))
+    if cat: query = query.filter_by(category=cat)
+    all_events = query.order_by(Event.date.asc()).all()
     return render_template('events.html', events=all_events)
-
-# FIXED: Added the missing 'about' route
-@app.route("/about")
-def about():
-    return render_template('about.html')
-
-# FIXED: Added the missing 'contact' route
-@app.route("/contact")
-def contact():
-    return render_template('contact.html')
-
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        hashed_pw = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed_pw)
-        db.session.add(user)
-        db.session.commit()
-        flash('Account created! Please login.', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html', form=form)
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and check_password_hash(user.password, form.password.data):
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        flash('Login Failed', 'danger')
-    return render_template('login.html', form=form)
-
-@app.route("/logout")
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
 
 @app.route("/dashboard")
 @login_required
@@ -124,6 +99,26 @@ def dashboard():
     joined_events = current_user.events_joined
     return render_template('dashboard.html', my_events=my_events, joined_events=joined_events)
 
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and check_password_hash(user.password, form.password.data):
+            login_user(user); return redirect(url_for('dashboard'))
+        flash('Login Failed', 'danger')
+    return render_template('login.html', form=form)
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_pw = generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_pw)
+        db.session.add(user); db.session.commit()
+        return redirect(url_for('login'))
+    return render_template('register.html', form=form)
+
 @app.route("/create-event", methods=['GET', 'POST'])
 @login_required
 def create_event():
@@ -131,14 +126,34 @@ def create_event():
     if form.validate_on_submit():
         try: date_obj = datetime.strptime(form.date.data, '%Y-%m-%dT%H:%M')
         except: date_obj = datetime.utcnow()
-        new_event = Event(title=form.title.data, location=form.location.data, 
-                          date=date_obj, description=form.description.data, 
-                          category="User Hosted", image_url="https://placehold.co/600x400/3498db/FFF?text=Hosted+Event",
-                          author=current_user)
-        db.session.add(new_event)
-        db.session.commit()
+        event = Event(title=form.title.data, location=form.location.data, date=date_obj,
+                      category=form.category.data, image_url=form.image_url.data,
+                      description=form.description.data, author=current_user)
+        db.session.add(event); db.session.commit()
         return redirect(url_for('index'))
     return render_template('create-event.html', form=form)
+
+@app.route("/event/<int:event_id>/update", methods=['GET', 'POST'])
+@login_required
+def update_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author != current_user: return redirect(url_for('index'))
+    form = EventForm()
+    if form.validate_on_submit():
+        event.title, event.location, event.description, event.category, event.image_url = form.title.data, form.location.data, form.description.data, form.category.data, form.image_url.data
+        db.session.commit(); return redirect(url_for('dashboard'))
+    elif request.method == 'GET':
+        form.title.data, form.location.data, form.description.data, form.category.data, form.image_url.data = event.title, event.location, event.description, event.category, event.image_url
+        form.date.data = event.date.strftime('%Y-%m-%dT%H:%M')
+    return render_template('create-event.html', form=form, title="Update Event")
+
+@app.route("/event/<int:event_id>/delete", methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author == current_user:
+        db.session.delete(event); db.session.commit()
+    return redirect(url_for('dashboard'))
 
 @app.route("/event/<int:event_id>")
 def event_details(event_id):
@@ -150,45 +165,45 @@ def event_details(event_id):
 def register_event(event_id):
     event = Event.query.get_or_404(event_id)
     if event not in current_user.events_joined:
-        current_user.events_joined.append(event)
-        db.session.commit()
-        flash('Registered!', 'success')
+        current_user.events_joined.append(event); db.session.commit()
     return redirect(url_for('dashboard'))
 
-# --- 5. STARTUP & 2026 SEEDER ---
+@app.route("/logout")
+def logout(): logout_user(); return redirect(url_for('index'))
+@app.route("/about")
+def about(): return render_template('about.html')
+@app.route("/contact")
+def contact(): return render_template('contact.html')
+
+# --- 5. INITIALIZATION & SEEDER ---
 def seed_database():
-    if Event.query.first(): return 
-    admin_pw = generate_password_hash("password123")
-    admin = User(username="Nepal_Admin", email="admin@test.com", password=admin_pw)
-    db.session.add(admin)
-    db.session.commit()
-
+    admin = User.query.filter_by(username="Nepal_Admin").first()
+    if not admin:
+        admin = User(username="Nepal_Admin", email="admin@test.com", password=generate_password_hash("password123"))
+        db.session.add(admin); db.session.commit()
+    if Event.query.count() > 5: return # Skip if already seeded
+    
     events_2026 = [
-        {"title": "Tech Expo KTM", "cat": "Tech", "loc": "Kathmandu", "date": datetime(2026, 1, 20, 10, 0), "img": "https://placehold.co/600x400/1e3c72/FFF?text=Tech+Expo"},
-        {"title": "Lakeside Music", "cat": "Music", "loc": "Pokhara", "date": datetime(2026, 2, 14, 18, 0), "img": "https://placehold.co/600x400/e74c3c/FFF?text=Music+Fest"},
-        {"title": "Cricket Finals", "cat": "Sports", "loc": "Kirtipur", "date": datetime(2026, 3, 10, 13, 0), "img": "https://placehold.co/600x400/2ecc71/FFF?text=Cricket"},
-        {"title": "Newari Food Day", "cat": "Food", "loc": "Bhaktapur", "date": datetime(2026, 4, 5, 12, 0), "img": "https://placehold.co/600x400/f39c12/FFF?text=Food+Day"},
-        {"title": "Everest Talk", "cat": "Travel", "loc": "Namche", "date": datetime(2026, 5, 29, 15, 0), "img": "https://placehold.co/600x400/34495e/FFF?text=Everest"},
-        {"title": "Startup Night", "cat": "Business", "loc": "Thamel", "date": datetime(2026, 6, 12, 19, 0), "img": "https://placehold.co/600x400/9b59b6/FFF?text=Startup"},
-        {"title": "Yoga Retreat", "cat": "Health", "loc": "Nagarkot", "date": datetime(2026, 7, 20, 6, 0), "img": "https://placehold.co/600x400/1abc9c/FFF?text=Yoga"},
-        {"title": "Gaming Cup", "cat": "Gaming", "loc": "Lalitpur", "date": datetime(2026, 8, 15, 11, 0), "img": "https://placehold.co/600x400/d35400/FFF?text=Gaming"},
-        {"title": "KTM Marathon", "cat": "Sports", "loc": "City Center", "date": datetime(2026, 9, 25, 7, 0), "img": "https://placehold.co/600x400/c0392b/FFF?text=Marathon"},
-        {"title": "Art Exhibition", "cat": "Art", "loc": "Patan", "date": datetime(2026, 10, 10, 10, 0), "img": "https://placehold.co/600x400/7f8c8d/FFF?text=Art"},
-        {"title": "Digital Nepal", "cat": "Tech", "loc": "Online", "date": datetime(2026, 11, 5, 14, 0), "img": "https://placehold.co/600x400/2980b9/FFF?text=Digital"},
-        {"title": "Peace Fest", "cat": "Cultural", "loc": "Lumbini", "date": datetime(2026, 12, 30, 16, 0), "img": "https://placehold.co/600x400/2c3e50/FFF?text=Peace"},
+        {"title": "Tech Expo KTM", "cat": "Tech", "loc": "Kathmandu", "date": datetime(2026, 1, 20), "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800"},
+        {"title": "Lakeside Music", "cat": "Music", "loc": "Pokhara", "date": datetime(2026, 2, 14), "img": "https://superdesk-pro-c.s3.amazonaws.com/sd-nepalitimes/2022111015118/636d05f09c7e80680e0a5f36jpeg.jpg"},
+        {"title": "Cricket Finals", "cat": "Sports", "loc": "Kirtipur", "date": datetime(2026, 3, 10), "img": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800"},
+        {"title": "Newari Food Day", "cat": "Food", "loc": "Bhaktapur", "date": datetime(2026, 4, 5), "img": "https://fis-api.kathmanducookingacademy.com/media/attachments/Newari%20dish.jpg"},
+        {"title": "Everest Talk", "cat": "Travel", "loc": "Namche", "date": datetime(2026, 5, 29), "img": "https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800"},
+        {"title": "Startup Night", "cat": "Business", "loc": "Thamel", "date": datetime(2026, 6, 12), "img": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800"},
+        {"title": "Yoga Retreat", "cat": "Health", "loc": "Nagarkot", "date": datetime(2026, 7, 20), "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800"},
+        {"title": "Gaming Cup", "cat": "Gaming", "loc": "Lalitpur", "date": datetime(2026, 8, 15), "img": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800"},
+        {"title": "KTM Marathon", "cat": "Sports", "loc": "City Center", "date": datetime(2026, 9, 25), "img": "https://images.contentstack.io/v3/assets/bltd427b71c2e191abd/blta093fe235e5a32ab/67ee0ed3221e860e3f6f7623/Blog-marathon-running-gear-checklist-1600x700.jpg?format=webp&quality=80"},
+        {"title": "Art Exhibition", "cat": "Art", "loc": "Patan", "date": datetime(2026, 10, 10), "img": "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=800"},
+        {"title": "Digital Nepal", "cat": "Tech", "loc": "Online", "date": datetime(2026, 11, 5), "img": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800"},
+        {"title": "Peace Fest", "cat": "Cultural", "loc": "Lumbini", "date": datetime(2026, 12, 30), "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/The_World_Peace_Pagoda_-_Lumbini.jpg/1280px-The_World_Peace_Pagoda_-_Lumbini.jpg"},
     ]
-
     for e in events_2026:
-        new_event = Event(title=e["title"], location=e["loc"], date=e["date"], 
-                          category=e["cat"], image_url=e["img"], author=admin, description="Best event of 2026!")
-        db.session.add(new_event)
+        db.session.add(Event(title=e["title"], location=e["loc"], date=e["date"], category=e["cat"], image_url=e["img"], author=admin, description="Best event of 2026!"))
     db.session.commit()
+
+with app.app_context():
+    db.create_all()
+    seed_database()
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        db.session.execute(text("DROP VIEW IF EXISTS registration_details"))
-        db.session.execute(text("CREATE VIEW registration_details AS SELECT user.username AS User_Name, event.title AS Event_Name FROM registrations JOIN user ON registrations.user_id = user.id JOIN event ON registrations.event_id = event.id;"))
-        db.session.commit()
-        seed_database() 
     app.run(debug=True)
