@@ -6,14 +6,25 @@
     <div class="hero-overlay"></div>
     <div class="container hero-content">
         <h1 class="hero-title">Create Memories That Last</h1>
-        <p class="hero-subtitle">Experience the best of tech, music and culture.</p>
+        <p class="hero-subtitle">Experience the best of tech, music, and culture.</p>
         <div class="hero-buttons">
-            <a href="{{ url_for('events') }}" class="btn-primary-hero">Browse Events</a>
-            <a href="{{ url_for('create_event') }}" class="btn-secondary-hero">Create Event</a>
+            <!-- Browse Events with Animated Border -->
+            <a href="{{ url_for('events') }}" class="btn-primary-hero">
+                <div class="border-arrow-container">
+                    <div class="border-arrow-moving"></div>
+                </div>
+                <span class="btn-text">Browse Events</span>
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+            
+            <!-- Create Event Button -->
+            <a href="{{ url_for('create_event') }}" class="btn-secondary-hero">
+                <span class="btn-text">Create Event</span>
+                <i class="fas fa-plus ms-2"></i>
+            </a>
         </div>
     </div>
 </div>
-
 <!-- Rest of your existing code stays the same -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
