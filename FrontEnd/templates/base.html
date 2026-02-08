@@ -10,13 +10,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <!-- Using your uppercase folder name 'CSS' -->
+ 
     <link rel="stylesheet" href="{{ url_for('static', filename='CSS/style.css') }}">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        /* This ensures content is not hidden under the fixed navbar */
+        /* content is not hidden under the fixed navbar */
         body {
             padding-top: 90px;
         }
@@ -25,7 +25,6 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-    <!-- Responsive Glass Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top"
         style="background: #1e272e; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
         <div class="container">
@@ -57,7 +56,6 @@
         </div>
     </nav>
 
-    <!-- Flash Messages -->
     <div class="container mt-3">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -71,21 +69,57 @@
         {% endwith %}
     </div>
 
-    <!-- Main Content Block -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4 mt-auto">
-        <div class="container">
-            <p class="mb-0">&copy; 2026 EventPro Nepal.</p>
-        </div>
-    </footer>
+<footer class="bg-[#1e272e]  text-white pt-5 mt-auto">
+    <div class="container">
+        <div class="row text-start">
 
-    <!-- Bootstrap JS (lowercase 'js' is required for the CDN link) -->
+            <!--  / About -->
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold">EventPro Nepal</h5>
+                <p class="small">
+                    EventPro Nepal is a modern event management system designed to
+                    simplify event planning, booking, and management with ease.
+                </p>
+            </div>
+
+                <!-- Quick Links -->
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold">Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('index') }}" class="text-white text-decoration-none">Home</a></li>
+                    <li><a href="{{ url_for('events') }}" class="text-white text-decoration-none">Events</a></li>
+                    <li><a href="{{ url_for('about') }}" class="text-white text-decoration-none">About Us</a></li>
+                    <li><a href="{{ url_for('contact') }}" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-md-4 mb-4">
+                <h5 class="fw-bold">Contact</h5>
+                <p class="small mb-1">📍 Kathmandu, Nepal</p>
+                <p class="small mb-1">📧 support@eventpronepal.com</p>
+                <p class="small">📞 +977-98XXXXXXXX</p>
+            </div>
+
+        </div>
+
+        <hr class="border-secondary">
+
+        <!-- Copyright -->
+        <div class="text-center pb-3">
+            <p class="mb-0 small">
+                &copy; 2026 <strong>EventPro Nepal</strong>. All Rights Reserved.
+            </p>
+        </div>
+    </div>
+</footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Using your uppercase folder name 'JS' -->
     <script src="{{ url_for('static', filename='JS/main.js') }}"></script>
 </body>
 

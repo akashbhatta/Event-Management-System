@@ -185,16 +185,27 @@ def seed_database():
     
     events_2026 = [
         {"title": "Tech Expo KTM", "cat": "Tech", "loc": "Kathmandu", "date": datetime(2026, 1, 20), "img": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800"},
+
         {"title": "Lakeside Music", "cat": "Music", "loc": "Pokhara", "date": datetime(2026, 2, 14), "img": "https://superdesk-pro-c.s3.amazonaws.com/sd-nepalitimes/2022111015118/636d05f09c7e80680e0a5f36jpeg.jpg"},
+
         {"title": "Cricket Finals", "cat": "Sports", "loc": "Kirtipur", "date": datetime(2026, 3, 10), "img": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=800"},
+
         {"title": "Newari Food Day", "cat": "Food", "loc": "Bhaktapur", "date": datetime(2026, 4, 5), "img": "https://fis-api.kathmanducookingacademy.com/media/attachments/Newari%20dish.jpg"},
-        {"title": "Everest Talk", "cat": "Travel", "loc": "Namche", "date": datetime(2026, 5, 29), "img": "https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800"},
+
+        {"title": "Everest Talk", "cat": "Travel", "loc": "Namche", "date": datetime(2026, 5, 29), "img": "https://api.luxuryholidaynepal.com/media/trip-gallery/media-a68cf26f-1751444735.jpg"},
+
         {"title": "Startup Night", "cat": "Business", "loc": "Thamel", "date": datetime(2026, 6, 12), "img": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800"},
+
         {"title": "Yoga Retreat", "cat": "Health", "loc": "Nagarkot", "date": datetime(2026, 7, 20), "img": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800"},
+
         {"title": "Gaming Cup", "cat": "Gaming", "loc": "Lalitpur", "date": datetime(2026, 8, 15), "img": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800"},
+
         {"title": "KTM Marathon", "cat": "Sports", "loc": "City Center", "date": datetime(2026, 9, 25), "img": "https://images.contentstack.io/v3/assets/bltd427b71c2e191abd/blta093fe235e5a32ab/67ee0ed3221e860e3f6f7623/Blog-marathon-running-gear-checklist-1600x700.jpg?format=webp&quality=80"},
+
         {"title": "Art Exhibition", "cat": "Art", "loc": "Patan", "date": datetime(2026, 10, 10), "img": "https://images.unsplash.com/photo-1531058020387-3be344556be6?w=800"},
+
         {"title": "Digital Nepal", "cat": "Tech", "loc": "Online", "date": datetime(2026, 11, 5), "img": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800"},
+
         {"title": "Peace Fest", "cat": "Cultural", "loc": "Lumbini", "date": datetime(2026, 12, 30), "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/The_World_Peace_Pagoda_-_Lumbini.jpg/1280px-The_World_Peace_Pagoda_-_Lumbini.jpg"},
     ]
     for e in events_2026:
