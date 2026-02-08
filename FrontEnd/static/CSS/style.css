@@ -5,7 +5,13 @@ body {
     background-color: #f4f7f68c;
     padding-top: 80px;
 }
+*{
+    scroll-behavior: smooth !important;
+}
 
+html {
+    scroll-behavior: smooth !important;
+}
 .navbar {
     background: rgba(16, 104, 171, 0.9) !important;
     backdrop-filter: blur(10px);
@@ -337,4 +343,34 @@ footer {
     color: white;
     padding: 30px 0;
     margin-top: 50px;
+}
+footer li a {
+    color: white;
+    text-decoration: none;
+}
+
+footer li a:hover {
+    text-decoration:underline;
+}
+
+.event-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+} 
+#eventSearch {
+    transition: all 0.3s ease;
+}
+
+#eventSearch:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+
+#prevBtn:disabled,
+#nextBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#noResults {
+    animation: fadeIn 0.5s ease;
 }
