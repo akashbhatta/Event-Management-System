@@ -1,17 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="hero-section text-center">
-    <div class="container mt-4">
-        <h1 class="display-3 mb-3 fw-bold text-white">Create Memories That Last</h1>
-        <p class="lead mb-4 text-white">Experience the best of tech, music, and culture.</p>
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{{ url_for('events') }}" class="btn btn-light btn-lg px-4 fw-bold">Explore Events</a>
-            <a href="{{ url_for('create_event') }}" class="btn btn-outline-light btn-lg px-4 fw-bold">Host an Event</a>
+<!-- Professional Hero Section -->
+<div class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <h1 class="hero-title">Create Memories That Last</h1>
+        <p class="hero-subtitle">Experience the best of tech, music and culture.</p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('events') }}" class="btn-primary-hero">Browse Events</a>
+            <a href="{{ url_for('create_event') }}" class="btn-secondary-hero">Create Event</a>
         </div>
     </div>
 </div>
 
+<!-- Rest of your existing code stays the same -->
 <div class="container mb-5">
     <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
         <h2 class="fw-bold text-dark">Upcoming Events</h2>
@@ -26,16 +29,14 @@
             style="{% if loop.index > 6 %}display:none;{% endif %}">
 
             <div class="card h-100 shadow-sm border-0 hover-effect">
-                <!-- TAG LOGIC: Only show for user-hosted events -->
                 <div class="position-absolute top-0 end-0 p-2" style="z-index: 10;">
                     {% if current_user.is_authenticated and event.author == current_user %}
                     <span class="badge bg-warning text-dark shadow-sm">Hosted by Me</span>
                     {% endif %}
                 </div>
 
-                <!-- IMAGE FALLBACK: onerror will trigger if link is broken -->
                 <img src="{{ event.image_url }}" class="card-img-top" style="height: 200px; object-fit: cover;"
-                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/3498db/FFF?text=Nepal+Event';">
+                    onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop';">
 
                 <div class="card-body">
                     <span class="badge bg-primary mb-2">{{ event.category }}</span>
