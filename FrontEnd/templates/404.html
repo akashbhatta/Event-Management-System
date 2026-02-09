@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="card border-0 shadow-sm p-4 p-md-5">
+                    <div class="display-1 fw-bold text-info">404</div>
+                    <h1 class="h3 fw-bold mb-3">Page Not Found</h1>
+                    <p class="text-muted mb-4">
+                        The page you are looking for does not exist or was moved. Please check the URL or return to a
+                        safe page.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a class="btn btn-info text-white px-4" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                        <a class="btn btn-outline-dark px-4" href="{{ url_for('events') }}">
+                            <i class="fas fa-search me-2"></i>Browse Events
+                        </a>
+                    </div>
+                    <div class="mt-4 small text-muted">
+                        Need help? <a href="{{ url_for('contact') }}" class="text-decoration-none">Contact support</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
