@@ -2,6 +2,7 @@
 
 let currentPage = 1;
 const cardsPerPage = 6;
+let statusFilter = 'all';
 
 // Change page with smooth transitions
 function changePage(direction) {
@@ -54,57 +55,73 @@ function changePage(direction) {
 
 // Enhanced search/filter function
 function filterEvents() {
-    let filter = document.getElementById('eventSearch').value.toUpperCase();
+    applyFilters();
+}
+
+function setStatusFilter(filter) {
+    statusFilter = filter;
+    const buttons = document.querySelectorAll('.status-filter-btn');
+    buttons.forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.filter === filter);
+    });
+    applyFilters();
+}
+
+function applyFilters() {
+    let searchInput = document.getElementById('eventSearch');
+    let filter = searchInput ? searchInput.value.toUpperCase() : '';
     let cards = document.getElementsByClassName('event-card');
     let visibleCount = 0;
     let noResults = document.getElementById('noResults');
+    const paginationDiv = document.querySelector('.d-flex.justify-content-center.align-items-center.mt-4');
+    const hasActiveFilter = filter.length > 0 || statusFilter !== 'all';
 
     for (let i = 0; i < cards.length; i++) {
         let title = cards[i].querySelector(".card-title").innerText;
         let location = cards[i].querySelector(".card-text").innerText;
         let category = cards[i].querySelector(".badge").innerText;
-        
-        // Search in title, location, and category
         let searchText = (title + " " + location + " " + category).toUpperCase();
-        
-        if (searchText.indexOf(filter) > -1) {
-            cards[i].style.display = "";
+
+        let statusMatch = true;
+        if (statusFilter === 'upcoming') {
+            statusMatch = cards[i].classList.contains('is-upcoming') || cards[i].classList.contains('is-soon');
+        } else if (statusFilter === 'expired') {
+            statusMatch = cards[i].classList.contains('is-expired');
+        }
+
+        if (searchText.indexOf(filter) > -1 && statusMatch) {
+            cards[i].style.display = "block";
             visibleCount++;
-            // Fade in animation
             cards[i].style.animation = 'fadeIn 0.5s ease';
         } else {
             cards[i].style.display = "none";
         }
     }
 
-    // Show/hide pagination when searching
-    const paginationDiv = document.querySelector('.d-flex.justify-content-center.align-items-center.mt-4');
-    if (filter.length > 0) {
+    if (hasActiveFilter) {
         if (paginationDiv) paginationDiv.style.display = 'none';
-        
-        // Show "no results" message
-        if (visibleCount === 0) {
-            if (!noResults) {
-                noResults = document.createElement('div');
-                noResults.id = 'noResults';
-                noResults.className = 'col-12 text-center py-5';
-                noResults.innerHTML = `
-                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                    <h4 class="text-muted">No events found</h4>
-                    <p class="text-muted">Try searching with different keywords</p>
-                `;
-                document.getElementById('eventsContainer').appendChild(noResults);
-            }
-            noResults.style.display = 'block';
-        } else {
-            if (noResults) noResults.style.display = 'none';
-        }
     } else {
         if (paginationDiv) paginationDiv.style.display = 'flex';
-        if (noResults) noResults.style.display = 'none';
-        // Reset to page 1 when search is cleared
         currentPage = 1;
         changePage(0);
+    }
+
+    if (visibleCount === 0) {
+        if (!noResults) {
+            noResults = document.createElement('div');
+            noResults.id = 'noResults';
+            noResults.className = 'col-12 text-center py-5';
+            noResults.innerHTML = `
+                <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted">No events found</h4>
+                <p class="text-muted">Try searching with different keywords</p>
+            `;
+            const container = document.getElementById('eventsContainer');
+            if (container) container.appendChild(noResults);
+        }
+        noResults.style.display = 'block';
+    } else {
+        if (noResults) noResults.style.display = 'none';
     }
 }
 

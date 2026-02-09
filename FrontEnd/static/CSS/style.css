@@ -333,6 +333,7 @@ html {
     border-radius: 15px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
 }
 
 .card:hover {
@@ -370,6 +371,47 @@ footer li a:hover {
 .event-card {
     transition: opacity 0.3s ease, transform 0.3s ease;
 } 
+.event-image-wrap {
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+.event-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 41, 59, 0.5));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.event-overlay-text {
+    color: #fff;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 8px 14px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+}
+.event-card.is-soon .card {
+    border: 2px solid #f4b400;
+    box-shadow: 0 15px 35px rgba(244, 180, 0, 0.25);
+}
+.event-card.is-soon .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 15px;
+    pointer-events: none;
+    background: linear-gradient(120deg, rgba(244, 180, 0, 0.15), transparent 40%);
+}
+.event-card.is-expired .card {
+    opacity: 0.75;
+    filter: grayscale(0.25);
+}
+.event-card.is-expired img {
+    filter: grayscale(0.8);
+}
 #eventSearch {
     transition: all 0.3s ease;
 }
@@ -377,6 +419,25 @@ footer li a:hover {
 #eventSearch:focus {
     border-color: #2563eb !important;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+}
+.status-filter-btn {
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    background: #ffffff;
+    color: #0f172a;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+.status-filter-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+.status-filter-btn.is-active {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
 }
 
 #prevBtn:disabled,

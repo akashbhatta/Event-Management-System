@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 from sqlalchemy import text
 
 # --- 1. SETUP ---
@@ -69,6 +69,27 @@ class EventForm(FlaskForm):
     submit = SubmitField('Post Event')
 
 # --- 4. ROUTES ---
+def prioritize_events(events):
+    now = datetime.utcnow()
+    soon_window = now + timedelta(days=7)
+    for event in events:
+        event.is_expired = event.date < now
+        event.is_soon = now <= event.date <= soon_window
+        delta = event.date - now
+        event.days_left = int(delta.total_seconds() // 86400)
+        event.hours_left = int(delta.total_seconds() // 3600)
+    def sort_key(event):
+        if event.is_soon:
+            bucket = 0
+        elif not event.is_expired:
+            bucket = 1
+        else:
+            bucket = 2
+        ts = event.date.timestamp()
+        if event.is_expired:
+            ts = -ts
+        return (bucket, ts)
+    return sorted(events, key=sort_key), now
 
 @app.route("/")
 @app.route("/index")
@@ -80,7 +101,8 @@ def index():
         events = Event.query.filter((Event.user_id == admin_id) | (Event.user_id == current_user.id)).order_by(Event.date.asc()).all()
     else:
         events = Event.query.filter_by(user_id=admin_id).order_by(Event.date.asc()).all()
-    return render_template('index.html', events=events)
+    events, now = prioritize_events(events)
+    return render_template('index.html', events=events, now=now)
 
 @app.route("/events")
 def events():
@@ -90,7 +112,8 @@ def events():
     query = Event.query.filter((Event.user_id == admin_id) | (Event.user_id == (current_user.id if current_user.is_authenticated else -1)))
     if cat: query = query.filter_by(category=cat)
     all_events = query.order_by(Event.date.asc()).all()
-    return render_template('events.html', events=all_events)
+    all_events, now = prioritize_events(all_events)
+    return render_template('events.html', events=all_events, now=now)
 
 @app.route("/dashboard")
 @login_required
