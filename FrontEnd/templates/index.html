@@ -24,10 +24,28 @@
 </div>
 
 <div class="container mb-5">
-    <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
-        <h2 class="fw-bold text-dark">Upcoming Events</h2>
-        <input type="text" id="eventSearch" class="form-control w-25 shadow-sm" placeholder="Search..."
-            onkeyup="filterEvents()">
+    <div class="events-header mb-3">
+        <div class="events-title">
+            <h2 class="fw-bold text-dark mb-1">Upcoming Events</h2>
+            <p class="text-muted small mb-0">Find events by name or category.</p>
+        </div>
+        <div class="events-controls">
+            <div class="events-select">
+                <i class="fas fa-layer-group"></i>
+                <select id="eventCategory" class="form-select" onchange="setCategoryFilter(this.value)">
+                    <option value="all">All Categories</option>
+                    {% set categories = events|map(attribute='category')|unique|list %}
+                    {% for cat in categories %}
+                    <option value="{{ cat }}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="events-search">
+                <i class="fas fa-search"></i>
+                <input type="text" id="eventSearch" class="form-control" placeholder="Search events..."
+                    onkeyup="filterEvents()">
+            </div>
+        </div>
     </div>
     <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
         <button class="status-filter-btn is-active" type="button" data-filter="all" onclick="setStatusFilter('all')">
@@ -45,6 +63,7 @@
         {% if events %}
         {% for event in events %}
         <div class="col-md-4 mb-4 event-card {% if event.is_expired %}is-expired{% elif event.is_soon %}is-soon{% else %}is-upcoming{% endif %} {% if loop.index <= 6 %}page-1{% else %}page-2{% endif %}"
+            data-category="{{ event.category }}"
             style="{% if loop.index > 6 %}display:none;{% endif %}">
 
             <div class="card h-100 shadow-sm border-0 hover-effect">

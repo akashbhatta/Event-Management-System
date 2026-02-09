@@ -3,59 +3,18 @@
 let currentPage = 1;
 const cardsPerPage = 6;
 let statusFilter = 'all';
+let categoryFilter = 'all';
 
 // Change page with smooth transitions
 function changePage(direction) {
     currentPage += direction;
-    
-    const page1 = document.querySelectorAll('.page-1');
-    const page2 = document.querySelectorAll('.page-2');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const pageIndicator = document.getElementById('pageIndicator');
-
-    // Add fade effect
-    const allCards = document.querySelectorAll('.event-card');
-    allCards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-    });
-
-    setTimeout(() => {
-        if (currentPage === 1) {
-            page1.forEach(el => el.style.display = 'block');
-            page2.forEach(el => el.style.display = 'none');
-            prevBtn.disabled = true;
-            nextBtn.disabled = false;
-        } else {
-            page1.forEach(el => el.style.display = 'none');
-            page2.forEach(el => el.style.display = 'block');
-            prevBtn.disabled = false;
-            nextBtn.disabled = true;
-        }
-
-        // Animate visible cards
-        const visibleCards = document.querySelectorAll('.event-card[style*="display: block"], .event-card:not([style*="display: none"])');
-        visibleCards.forEach((card, index) => {
-            setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 200);
-        });
-
-        pageIndicator.innerText = `Page ${currentPage} of 2`;
-
-        // Smooth scroll to top of events section
-        const eventsContainer = document.getElementById('eventsContainer');
-        if (eventsContainer) {
-            eventsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }, 300);
+    applyFilters(false);
 }
 
 // Enhanced search/filter function
 function filterEvents() {
-    applyFilters();
+    currentPage = 1;
+    applyFilters(false);
 }
 
 function setStatusFilter(filter) {
@@ -64,23 +23,33 @@ function setStatusFilter(filter) {
     buttons.forEach(btn => {
         btn.classList.toggle('is-active', btn.dataset.filter === filter);
     });
-    applyFilters();
+    currentPage = 1;
+    applyFilters(true);
 }
 
-function applyFilters() {
+function setCategoryFilter(category) {
+    categoryFilter = category || 'all';
+    currentPage = 1;
+    applyFilters(true);
+}
+
+function applyFilters(shouldScroll) {
+    const eventsContainer = document.getElementById('eventsContainer');
+    if (!eventsContainer) return;
     let searchInput = document.getElementById('eventSearch');
     let filter = searchInput ? searchInput.value.toUpperCase() : '';
+    const categorySelect = document.getElementById('eventCategory');
+    if (categorySelect) categoryFilter = categorySelect.value || categoryFilter;
     let cards = document.getElementsByClassName('event-card');
-    let visibleCount = 0;
+    let filteredCards = [];
     let noResults = document.getElementById('noResults');
     const paginationDiv = document.querySelector('.d-flex.justify-content-center.align-items-center.mt-4');
-    const hasActiveFilter = filter.length > 0 || statusFilter !== 'all';
     updateStatusCounts();
 
     for (let i = 0; i < cards.length; i++) {
         let title = cards[i].querySelector(".card-title").innerText;
         let location = cards[i].querySelector(".card-text").innerText;
-        let category = cards[i].querySelector(".badge").innerText;
+        let category = cards[i].dataset.category || '';
         let searchText = (title + " " + location + " " + category).toUpperCase();
 
         let statusMatch = true;
@@ -90,24 +59,58 @@ function applyFilters() {
             statusMatch = cards[i].classList.contains('is-expired');
         }
 
-        if (searchText.indexOf(filter) > -1 && statusMatch) {
-            cards[i].style.display = "block";
-            visibleCount++;
-            cards[i].style.animation = 'fadeIn 0.5s ease';
-        } else {
-            cards[i].style.display = "none";
+        let categoryMatch = true;
+        if (categoryFilter !== 'all') {
+            categoryMatch = category.trim().toLowerCase() === categoryFilter.trim().toLowerCase();
+        }
+
+        if (searchText.indexOf(filter) > -1 && statusMatch && categoryMatch) {
+            filteredCards.push(cards[i]);
         }
     }
 
-    if (hasActiveFilter) {
-        if (paginationDiv) paginationDiv.style.display = 'none';
-    } else {
-        if (paginationDiv) paginationDiv.style.display = 'flex';
-        currentPage = 1;
-        changePage(0);
+    // Pagination based on filtered list
+    const totalPages = Math.max(1, Math.ceil(filteredCards.length / cardsPerPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    const start = (currentPage - 1) * cardsPerPage;
+    const end = start + cardsPerPage;
+
+    // Hide all cards first
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].style.display = "none";
     }
 
-    if (visibleCount === 0) {
+    // Add fade effect and show paginated cards
+    filteredCards.forEach((card, index) => {
+        if (index >= start && index < end) {
+            card.style.display = "block";
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+                card.style.animation = 'fadeIn 0.5s ease';
+            }, 60);
+        }
+    });
+
+    // Update pagination controls
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageIndicator = document.getElementById('pageIndicator');
+    if (paginationDiv && prevBtn && nextBtn && pageIndicator) {
+        if (totalPages <= 1) {
+            paginationDiv.style.display = 'none';
+        } else {
+            paginationDiv.style.display = 'flex';
+        }
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+        pageIndicator.innerText = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    if (filteredCards.length === 0) {
         if (!noResults) {
             noResults = document.createElement('div');
             noResults.id = 'noResults';
@@ -123,6 +126,10 @@ function applyFilters() {
         noResults.style.display = 'block';
     } else {
         if (noResults) noResults.style.display = 'none';
+    }
+
+    if (shouldScroll && eventsContainer) {
+        eventsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -172,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     updateStatusCounts();
+    applyFilters(false);
 });
 
 // ==================== SCROLL TO TOP BUTTON ====================

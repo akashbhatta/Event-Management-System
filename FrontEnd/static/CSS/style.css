@@ -421,6 +421,63 @@ footer li a:hover {
     border-color: #2563eb !important;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
 }
+.events-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+    padding-bottom: 12px;
+}
+.events-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
+    max-width: 640px;
+}
+.events-search,
+.events-select {
+    position: relative;
+    width: 100%;
+    max-width: 260px;
+}
+.events-search i,
+.events-select i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 0.95rem;
+}
+.events-search #eventSearch,
+.events-select #eventCategory {
+    height: 40px;
+    border-radius: 999px;
+    padding-left: 38px;
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+}
+.events-select #eventCategory {
+    padding-right: 36px;
+}
+@media (max-width: 768px) {
+    .events-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .events-controls {
+        justify-content: flex-start;
+        max-width: 100%;
+    }
+    .events-search,
+    .events-select {
+        max-width: 100%;
+    }
+}
 .status-filter-btn {
     border: 1px solid rgba(15, 23, 42, 0.15);
     background: #ffffff;
