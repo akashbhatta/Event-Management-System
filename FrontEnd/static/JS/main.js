@@ -75,6 +75,7 @@ function applyFilters() {
     let noResults = document.getElementById('noResults');
     const paginationDiv = document.querySelector('.d-flex.justify-content-center.align-items-center.mt-4');
     const hasActiveFilter = filter.length > 0 || statusFilter !== 'all';
+    updateStatusCounts();
 
     for (let i = 0; i < cards.length; i++) {
         let title = cards[i].querySelector(".card-title").innerText;
@@ -125,6 +126,26 @@ function applyFilters() {
     }
 }
 
+function updateStatusCounts() {
+    const cards = document.getElementsByClassName('event-card');
+    let upcoming = 0;
+    let expired = 0;
+    for (let i = 0; i < cards.length; i++) {
+        if (cards[i].classList.contains('is-expired')) {
+            expired++;
+        } else if (cards[i].classList.contains('is-upcoming') || cards[i].classList.contains('is-soon')) {
+            upcoming++;
+        }
+    }
+    const all = cards.length;
+    const allEl = document.querySelector('[data-count="all"]');
+    const upcomingEl = document.querySelector('[data-count="upcoming"]');
+    const expiredEl = document.querySelector('[data-count="expired"]');
+    if (allEl) allEl.textContent = all;
+    if (upcomingEl) upcomingEl.textContent = upcoming;
+    if (expiredEl) expiredEl.textContent = expired;
+}
+
 // ==================== SMOOTH SCROLL FEATURES ====================
 
 // Scroll to top on page load
@@ -149,6 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
     eventCards.forEach(card => {
         card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
     });
+
+    updateStatusCounts();
 });
 
 // ==================== SCROLL TO TOP BUTTON ====================
@@ -199,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
 
 function shouldHandleFooterLinkClick(event, link) {
     if (event.defaultPrevented) return false;

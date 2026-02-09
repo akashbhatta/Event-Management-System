@@ -31,13 +31,13 @@
     </div>
     <div class="d-flex flex-wrap gap-2 mb-4 align-items-center">
         <button class="status-filter-btn is-active" type="button" data-filter="all" onclick="setStatusFilter('all')">
-            All
+            All <span class="status-count" data-count="all">0</span>
         </button>
         <button class="status-filter-btn" type="button" data-filter="upcoming" onclick="setStatusFilter('upcoming')">
-            Upcoming
+            Upcoming <span class="status-count" data-count="upcoming">0</span>
         </button>
         <button class="status-filter-btn" type="button" data-filter="expired" onclick="setStatusFilter('expired')">
-            Expired
+            Expired <span class="status-count" data-count="expired">0</span>
         </button>
     </div>
 
@@ -105,7 +105,7 @@
     </div>
 
     {% if events|length > 6 %}
-    <div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="d-flex justify-content-center align-items-center mt-4 pagination-controls">
         <button id="prevBtn" class="btn btn-outline-dark me-3" onclick="changePage(-1)" disabled>Previous</button>
         <span id="pageIndicator" class="fw-bold text-muted">Page 1 of 2</span>
         <button id="nextBtn" class="btn btn-outline-dark ms-3" onclick="changePage(1)">Next</button>
