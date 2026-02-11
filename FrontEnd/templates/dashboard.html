@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-5">
     <!-- User Profile Header -->
-    <div class="row align-items-center mb-5 bg-white p-4 rounded shadow-sm border-start border-primary border-5">
+    <div class="row align-items-center mb-5 bg-white p-4 rounded shadow-sm border-start border-primary border-5 dashboard-header">
         <div class="col-auto">
             <!-- Dynamic Avatar based on Username -->
             <img src="https://ui-avatars.com/api/?name={{ current_user.username }}&background=0D8ABC&color=fff&size=128"
@@ -23,13 +23,13 @@
     <div class="row mt-4">
         <!-- Column 1: Registered Events -->
         <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm border-0 h-100 dashboard-panel">
                 <div class="card-header bg-info text-white py-3">
                     <h5 class="mb-0 fw-bold"><i class="fas fa-ticket-alt me-2"></i>Registered Events</h5>
                 </div>
                 <div class="list-group list-group-flush">
                     {% for event in joined_events %}
-                    <div class="list-group-item p-3">
+                    <div class="list-group-item p-3 dashboard-event">
                         <div class="d-flex align-items-center">
                             <!-- Space for Activity Image -->
                             <img src="{{ event.image_url }}" class="rounded me-3"
@@ -56,13 +56,13 @@
 
         <!-- Column 2: My Hosted Events -->
         <div class="col-lg-6 mb-4">
-            <div class="card shadow-sm border-0 h-100">
+            <div class="card shadow-sm border-0 h-100 dashboard-panel">
                 <div class="card-header bg-dark text-white py-3">
                     <h5 class="mb-0 fw-bold"><i class="fas fa-user-tie me-2"></i>My Hosted Events</h5>
                 </div>
                 <div class="list-group list-group-flush">
                     {% for event in my_events %}
-                    <div class="list-group-item p-3">
+                    <div class="list-group-item p-3 dashboard-event">
                         <div class="d-flex align-items-center">
                             <!-- Space for Activity Image -->
                             <img src="{{ event.image_url }}" class="rounded me-3"

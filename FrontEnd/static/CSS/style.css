@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --nav-height: 90px;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f7f68c;
-    padding-top: 80px;
+    padding-top: var(--nav-height);
 }
 *{
     scroll-behavior: smooth !important;
@@ -11,6 +15,12 @@ body {
 
 html {
     scroll-behavior: smooth !important;
+}
+
+img,
+video {
+    max-width: 100%;
+    height: auto;
 }
 .navbar {
     background: rgba(16, 104, 171, 0.9) !important;
@@ -48,13 +58,17 @@ html {
 }
 
 @media (max-width: 991px) {
+    :root {
+        --nav-height: 80px;
+    }
+
     .navbar-collapse {
         position: fixed;
         top: 0;
         right: 0;
 
-        width: 40%;
-        height: 80vh;
+        width: min(82vw, 360px);
+        height: 100vh;
 
         background-color: rgb(49, 70, 105);
         padding: 30px 20px;
@@ -97,8 +111,19 @@ html {
     }
 }
 
+@media (max-width: 575px) {
+    :root {
+        --nav-height: 72px;
+    }
+
+    .navbar-collapse {
+        width: 100vw;
+        border-radius: 0;
+    }
+}
+
 .hero-section {
-    height: 70vh;
+    min-height: 70vh;
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
     display: flex;
     align-items: center;
@@ -291,7 +316,7 @@ html {
 }
 @media (max-width: 768px) {
     .hero-section {
-        height: 80vh;
+        min-height: 80vh;
     }
     
     .hero-title {
@@ -306,13 +331,14 @@ html {
     .hero-buttons {
         flex-direction: column;
         gap: 1.5rem;
-        width: 60%;
+        width: 100%;
+        align-items: center;
         
     }
     
     .btn-primary-hero,
     .btn-secondary-hero {
-        width: 90%;
+        width: min(320px, 90%);
         padding: 0.9rem 2rem;
         font-size: 1rem;
     }
@@ -325,6 +351,16 @@ html {
     
     .hero-subtitle {
         font-size: 1rem;
+    }
+
+    .hero-content {
+        padding: 1.25rem;
+    }
+
+    .btn-primary-hero,
+    .btn-secondary-hero {
+        width: 100%;
+        padding: 0.85rem 1.5rem;
     }
 }
 
@@ -523,4 +559,122 @@ footer li a:hover {
 
 #noResults {
     animation: fadeIn 0.5s ease;
+}
+
+.pagination-controls {
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.event-detail-hero img {
+    object-fit: cover;
+}
+
+.dashboard-header {
+    gap: 16px;
+}
+
+.dashboard-panel .dashboard-event .d-flex {
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.dashboard-panel .dashboard-event .btn {
+    white-space: nowrap;
+}
+
+.contact-card .contact-info,
+.contact-card .contact-form {
+    min-height: 100%;
+}
+
+@media (max-width: 991px) {
+    .card-img-top {
+        height: 180px;
+    }
+
+    .events-header h2 {
+        font-size: 1.6rem;
+    }
+
+    .event-detail-body {
+        padding: 2.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .events-header {
+        gap: 16px;
+    }
+
+    .pagination-controls {
+        flex-direction: column;
+    }
+
+    .dashboard-header {
+        text-align: center;
+    }
+
+    .dashboard-header .col-auto,
+    .dashboard-header .col {
+        width: 100%;
+    }
+
+    .dashboard-header .btn {
+        width: 100%;
+    }
+
+    .dashboard-panel .dashboard-event img {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .dashboard-panel .dashboard-event .d-flex {
+        align-items: flex-start;
+    }
+
+    .dashboard-panel .dashboard-event .btn {
+        width: 100%;
+    }
+
+    .contact-card .contact-info,
+    .contact-card .contact-form {
+        padding: 2rem !important;
+        text-align: center;
+    }
+
+    .contact-card .contact-info .d-flex {
+        justify-content: center;
+    }
+
+    .contact-card .contact-info .d-flex span {
+        text-align: left;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-img-top {
+        height: 165px;
+    }
+
+    .hero-section {
+        min-height: 72vh;
+    }
+
+    .event-detail-hero {
+        height: 220px !important;
+    }
+
+    .event-detail-body {
+        padding: 1.75rem !important;
+    }
+
+    .contact-card .contact-info,
+    .contact-card .contact-form {
+        padding: 1.5rem !important;
+    }
+
+    .events-controls {
+        gap: 10px;
+    }
 }
