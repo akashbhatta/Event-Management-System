@@ -36,6 +36,17 @@ video {
     letter-spacing: 1px;
 }
 
+.navbar-toggler,
+.navbar-close-btn {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border-radius: 8px;
+}
+
 .nav-link {
     font-weight: 500;
     font-size: 0.95rem;
@@ -68,7 +79,7 @@ video {
         right: 0;
 
         width: min(82vw, 360px);
-        height: 100vh;
+        height: 85vh;
 
         background-color: rgb(49, 70, 105);
         padding: 30px 20px;
@@ -85,7 +96,7 @@ video {
         transform: translateX(0);
     }
 
-    .navbar-close-btn {
+.navbar-close-btn {
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: #ffffff;
         padding: 6px 10px;
@@ -117,7 +128,7 @@ video {
     }
 
     .navbar-collapse {
-        width: 100vw;
+        width: 60vw;
         border-radius: 0;
     }
 }
