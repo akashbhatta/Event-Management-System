@@ -1,4 +1,4 @@
-// ==================== PAGINATION & SEARCH ====================
+// PAGINATION & SEARCH 
 
 let currentPage = 1;
 const cardsPerPage = 6;
@@ -153,7 +153,7 @@ function updateStatusCounts() {
     if (expiredEl) expiredEl.textContent = expired;
 }
 
-// ==================== SMOOTH SCROLL FEATURES ====================
+//  SMOOTH SCROLL FEATURES 
 
 // Scroll to top on page load
 window.addEventListener('load', function() {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
     applyFilters(false);
 });
 
-// ==================== SCROLL TO TOP BUTTON ====================
+//  SCROLL TO TOP BUTTON 
 
 // Show/hide scroll to top button
 window.onscroll = function() {
@@ -205,7 +205,7 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ==================== SEARCH INPUT ENHANCEMENTS ====================
+// SEARCH INPUT ENHANCEMENTS 
 
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('eventSearch');

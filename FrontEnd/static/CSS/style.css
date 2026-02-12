@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+/* Global tokens */
 :root {
     --nav-height: 90px;
 }
 
+/* Base typography and layout */
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #f4f7f68c;
     padding-top: var(--nav-height);
 }
 *{
+    /* Smooth anchor scrolling across the page */
     scroll-behavior: smooth !important;
 }
 
@@ -17,11 +20,13 @@ html {
     scroll-behavior: smooth !important;
 }
 
+/* Media defaults */
 img,
 video {
     max-width: 100%;
     height: auto;
 }
+/* Top navigation */
 .navbar {
     background: rgba(16, 104, 171, 0.9) !important;
     backdrop-filter: blur(10px);
@@ -68,6 +73,7 @@ video {
     
 }
 
+/* Mobile navigation drawer */
 @media (max-width: 991px) {
     :root {
         --nav-height: 80px;
@@ -133,9 +139,11 @@ video {
     }
 }
 
+/* Hero */
 .hero-section {
     min-height: 70vh;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+    background: linear-gradient(135deg, #0f172a 0%,
+     #1e293b 50%, #334155 100%);
     display: flex;
     align-items: center;
     position: relative;
@@ -375,7 +383,7 @@ video {
     }
 }
 
-
+/* Cards */
 .card {
     border: none;
     border-radius: 15px;
@@ -416,6 +424,7 @@ footer li a:hover {
     text-decoration:underline;
 }
 
+/* Event list visuals */
 .event-card {
     transition: opacity 0.3s ease, transform 0.3s ease;
 } 
@@ -468,6 +477,7 @@ footer li a:hover {
     border-color: #2563eb !important;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
 }
+/* Event search + filters */
 .events-header {
     display: flex;
     align-items: flex-end;
@@ -562,6 +572,7 @@ footer li a:hover {
     color: #ffffff;
 }
 
+/* Pagination */
 #prevBtn:disabled,
 #nextBtn:disabled {
     opacity: 0.5;
@@ -577,10 +588,12 @@ footer li a:hover {
     flex-wrap: wrap;
 }
 
+/* Event detail */
 .event-detail-hero img {
     object-fit: cover;
 }
 
+/* Dashboard */
 .dashboard-header {
     gap: 16px;
 }
@@ -599,6 +612,7 @@ footer li a:hover {
     min-height: 100%;
 }
 
+/* Responsive layout tweaks */
 @media (max-width: 991px) {
     .card-img-top {
         height: 180px;

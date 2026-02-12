@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary mb-4">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white py-3">
+            <h5 class="mb-0 fw-bold">Registrations for {{ event.title }}</h5>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for registration in registrations %}
+            <div class="list-group-item p-4">
+                <div class="d-flex flex-wrap align-items-start gap-3">
+                    <img src="https://ui-avatars.com/api/?name={{ registration.user.username }}&background=0D8ABC&color=fff&size=96"
+                        class="rounded-circle shadow-sm" width="56" alt="User">
+                    <div class="flex-grow-1">
+                        <div class="fw-bold text-dark">{{ registration.user.username }}</div>
+                        <div class="text-muted small">
+                            <i class="fas fa-envelope me-1"></i>{{ registration.user.email }}
+                        </div>
+                        <div class="mt-2">
+                            <div class="text-muted small">Short Info</div>
+                            <div class="text-dark">{{ registration.short_info }}</div>
+                        </div>
+                    </div>
+                    <div class="text-muted small">
+                        {{ registration.created_at.strftime('%b %d, %Y %I:%M %p') }}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="p-5 text-center text-muted">
+                <i class="fas fa-user-friends fa-3x mb-3 opacity-25"></i>
+                <p>No registrations yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

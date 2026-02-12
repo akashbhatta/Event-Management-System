@@ -8,7 +8,7 @@
                 <h4 class="mb-0 fw-bold">{{ title if title else 'Host a New Event' }}</h4>
             </div>
             <div class="card-body p-4">
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
 
                     <div class="mb-3">
@@ -18,13 +18,18 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
+                            {{ form.organizer_name.label(class="form-label fw-bold") }}
+                            {{ form.organizer_name(class="form-control", placeholder="e.g. Nepal Events Group") }}
+                        </div>
+                        <div class="col-md-6 mb-3">
                             {{ form.location.label(class="form-label fw-bold") }}
                             {{ form.location(class="form-control", placeholder="e.g. Kathmandu, Nepal") }}
                         </div>
-                        <div class="col-md-6 mb-3">
-                            {{ form.date.label(class="form-label fw-bold") }}
-                            {{ form.date(class="form-control", type="datetime-local") }}
-                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.date.label(class="form-label fw-bold") }}
+                        {{ form.date(class="form-control", type="datetime-local") }}
                     </div>
 
                     <!-- NEW SECTION: Category and Image URL -->
@@ -38,6 +43,12 @@
                             {{ form.image_url(class="form-control", placeholder="Paste an image link here") }}
                             <small class="text-muted">Tip: Copy an image address from the web.</small>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.image_file.label(class="form-label fw-bold") }}
+                        {{ form.image_file(class="form-control") }}
+                        <small class="text-muted">Upload an image if you do not have a URL.</small>
                     </div>
 
                     <div class="mb-4">

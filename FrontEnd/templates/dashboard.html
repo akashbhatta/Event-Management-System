@@ -73,6 +73,10 @@
                                     event.date.strftime('%Y-%m-%d') }}</small>
                             </div>
                             <div class="d-flex gap-2">
+                                <a href="{{ url_for('event_registrations', event_id=event.id) }}"
+                                    class="btn btn-sm btn-outline-primary shadow-sm">
+                                    <i class="fas fa-users me-1"></i>{{ event.registrations|length }}
+                                </a>
                                 <a href="{{ url_for('update_event', event_id=event.id) }}"
                                     class="btn btn-sm btn-light border shadow-sm">
                                     <i class="fas fa-edit"></i>
