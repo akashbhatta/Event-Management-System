@@ -260,6 +260,19 @@ def register_event(event_id):
         db.session.add(registration); db.session.commit()
     return redirect(url_for('dashboard'))
 
+@app.route("/event/<int:event_id>/unregister", methods=['POST'])
+@login_required
+def unregister_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    registration = Registration.query.filter_by(user_id=current_user.id, event_id=event.id).first()
+    if registration:
+        db.session.delete(registration)
+        db.session.commit()
+        flash('You have been unregistered from this event.', 'success')
+    else:
+        flash('You are not registered for this event.', 'warning')
+    return redirect(request.referrer or url_for('event_details', event_id=event.id))
+
 @app.route("/event/<int:event_id>/registrations")
 @login_required
 def event_registrations(event_id):

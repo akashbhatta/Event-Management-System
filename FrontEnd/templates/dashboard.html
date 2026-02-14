@@ -39,8 +39,14 @@
                                 <small class="text-muted"><i class="fas fa-map-marker-alt text-danger"></i> {{
                                     event.location }}</small>
                             </div>
-                            <a href="{{ url_for('event_details', event_id=event.id) }}"
-                                class="btn btn-sm btn-outline-primary rounded-pill px-3">View</a>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('event_details', event_id=event.id) }}"
+                                    class="btn btn-sm btn-outline-primary rounded-pill px-3">View</a>
+                                <form method="POST" action="{{ url_for('unregister_event', event_id=event.id) }}"
+                                    onsubmit="return confirm('Unregister from this event?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">Unregister</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     {% else %}
