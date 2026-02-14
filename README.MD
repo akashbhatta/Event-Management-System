@@ -129,13 +129,28 @@ EVENT-MANAGEMENT-SYSTEM/
 ## Screenshots
 
 ### Homepage
-![Homepage](screenshots/homepage.png)
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221059.png
 
-### Events Page
-![Events](screenshots/events.png)
+### Explore Page
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221426.png
 
-### Admin Dashboard
-![Admin](screenshots/admin-dashboard.png)
+### Event Details Page
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221538.png
+
+### Dashboard
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20222241.png
+
+### Login
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221631.png
+
+### Contact
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20222103.png
+
+### Register
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221611.png
+
+### Create Events page
+https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-14%20134258.png
 
 ---
 
