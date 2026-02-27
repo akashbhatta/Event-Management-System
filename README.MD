@@ -132,25 +132,25 @@ EVENT-MANAGEMENT-SYSTEM/
 ![Homepage](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221059.png?raw=true)
 
 ### Explore Page
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221426.png
+![Explore](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221426.png?raw=true)
 
 ### Event Details Page
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221538.png
+![EventDetails](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221538.png?raw=true)
 
 ### Dashboard
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20222241.png
+![Dashboard](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20222241.png?raw=true)
 
 ### Login
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221631.png
+![Login](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221631.png?raw=true)
 
 ### Contact
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20222103.png
+![Contact](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20222103.png?raw=true)
 
 ### Register
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221611.png
+![Register](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221611.png?raw=true)
 
 ### Create Events page
-https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-14%20134258.png
+![CreateEvent](https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-14%20134258.png?raw=true)
 
 ---
 
