@@ -129,7 +129,7 @@ EVENT-MANAGEMENT-SYSTEM/
 ## Screenshots
 
 ### Homepage
-https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221059.png?raw=true
+![Homepage]https://github.com/akashbhatta/Event-Management-System/blob/main/Screenshot%202026-02-11%20221059.png?raw=true
 
 ### Explore Page
 https://github.com/akashbhatta/Event-Management-System/blob/68722ecd56512585beda858d1967c7bda04ccc1c/Screenshot%202026-02-11%20221426.png
